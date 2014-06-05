@@ -17,12 +17,12 @@
                 }
                 .menu a.right { padding-right:19px; }
                 .menu a:hover { background:#2E4560; }
-                .menu a.currnt { color:#2E4560; background:#fff; }
-                .menu a.currnt:hover { color:#2E4560; background:#fff; }
+                .menu a.current { color:#2E4560; background:#fff; }
+                .menu a.current:hover { color:#2E4560; background:#fff; }
             table
                 .main { width:480px; height:640px; margin:0px;}
                 .clsHead { height : 45px; }
-                .clsMain { height : 595px; }
+                .clsMain { height : 595px; margin:0; }
         </style>
     </head>
     
@@ -33,15 +33,31 @@
                     <div id="container">
                         <ul class="menu">
                             <li><a href="index.html" title="index">INDEX</a></li>
-                            <li><a href="insert.html" title="insert">INSERT</a></li>
+                            <li><a href="insert.html" title="insert" class="current">INSERT</a></li>
                             <li><a href="#" title="bookinfo">BOOK</a></li>
                         </ul>
                     </div>
                 </td>
             </tr>
-            <tr class-"clsMain">
+            <tr class="clsMain">
                 <td>
-                    <div>main</div>
+                    <div>
+                        <form method="post" action="insert_query.php">
+                        	<label for="name">제목&nbsp&nbsp&nbsp</label>
+                        	<input type="text" id="name" name="name"/> <br/> 
+    
+                         	<label for="writer">저자&nbsp&nbsp&nbsp</label>
+                        	<input type="text" id="writer" name="writer"/> <br/>
+    
+                        	<label for="date">시작일</label>
+                        	<input type="date" id="rstart" name="rstart"/> <br/>
+    
+                        	<label for="publisher">출판사</label>
+                        	<input type="text" id="publisher" name="publisher"/> <br/>
+    
+                        	<input type="submit" value="추가" name="submit" /> <br/>
+                        </form>
+                    </div>
                 </td>
             </tr>
         </table>
