@@ -17,8 +17,8 @@
                 }
                 .menu a.right { padding-right:19px; }
                 .menu a:hover { background:#2E4560; }
-                .menu a.currnt { color:#2E4560; background:#fff; }
-                .menu a.currnt:hover { color:#2E4560; background:#fff; }
+                .menu a.current { color:#2E4560; background:#fff; }
+                .menu a.current:hover { color:#2E4560; background:#fff; }
             table
                 .main { width:480px; height:640px; margin:0px;}
                 .clsHead { height : 45px; }
@@ -33,38 +33,18 @@
                     <div id="container">
                         <ul class="menu">
                             <li><a href="index.html" title="index">INDEX</a></li>
-                            <li><a href="insert.html" title="insert" class="current">INSERT</a></li>
-                            <li><a href="bookingo.html" title="bookinfo">BOOK</a></li>
+                            <li><a href="insert.html" title="insert">INSERT</a></li>
+                            <li><a href="book_info.html" title="bookinfo" class="current">BOOK</a></li>
                         </ul>
                     </div>
                 </td>
             </tr>
             <tr class="clsMain">
                 <td>
-                    <div>
-                        <?php
-            
-                            $ip = getenv("REMOTE_ADDR"); 
-                        
-                        	$Name = $_POST['name'];
-                        	$Writer = $_POST['writer'];
-                        	$Date = date("Y-m-d", strtotime($_POST['rstart']));
-                        	$Publisher = $_POST['publisher'];
-                        
-                        	$dbc = mysqli_connect($ip, 'meshabber', '', 'c9')
-                        	or die('Err Connecting to MYSQL server.');
-                        
-                        	$query = "INSERT INTO bookinfo values ('$Name', '$Writer', '$Date', '$Publisher')";
-                        
-                        	$result = mysqli_query($dbc, $query)
-                        	or die('Err Querying database.');
-                        
-                        	echo '추가되었습니다.';
-                        
-                        	mysqli_close($dbc);
-        
-                        ?>
-                    </div>
+                    <div>selct search</div>
+                    <div>graph</div>
+                    <div>book information</div>
+                    <div>delete/adjust info query</div>
                 </td>
             </tr>
         </table>
