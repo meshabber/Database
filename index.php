@@ -32,7 +32,7 @@
                 <td>
                     <div id="container">
                         <ul class="menu">
-                            <li><a href="index.html" title="index" class="current">INDEX</a></li>
+                            <li><a href="index.php" title="index" class="current">INDEX</a></li>
                             <li><a href="insert.php" title="insert">INSERT</a></li>
                             <li><a href="book_info.php" title="bookinfo">BOOK</a></li>
                         </ul>

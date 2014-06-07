@@ -26,6 +26,7 @@
                 
                 label { display:inline-block; width:50px; text-align:right; }
                 input { width:155px; box-sizing:border-box; }
+                input:focus { border-color: #000; }
                 .button { padding-left:5px; margin-left:.5em; }    
         </style>
     </head>
@@ -36,7 +37,7 @@
                 <td>
                     <div id="container">
                         <ul class="menu">
-                            <li><a href="index.html" title="index">INDEX</a></li>
+                            <li><a href="index.php" title="index">INDEX</a></li>
                             <li><a href="insert.php" title="insert" class="current">INSERT</a></li>
                             <li><a href="book_info.php" title="bookinfo">BOOK</a></li>
                         </ul>
@@ -45,8 +46,9 @@
             </tr>
             <tr class="clsMain">
                 <td>
-                    <div style="width:96%; height:180px; padding:10px; border:3; border-style:solid; border-color:#EBEBEB; overflow:auto">
+                    <div style="width:96%; padding:10px; border:3; border-style:solid; border-color:#EBEBEB; overflow:auto">
                         <form method="post" action="./insert.php">
+                            </br>
                         	<label for="name">제목</label>
                         	<input type="text" id="name" name="name"/> <br/> 
     
@@ -61,8 +63,11 @@
                         	
                         	<label for="allpage">페이지</label>
                             <input type="text" id="allpage" name="allpage"/> <br/>
-
-                        	<button type="submit" name="submit">추가</button><br/>
+                            
+                            <center>
+                        	<button type="submit" name="submit">submit</button>
+                        	<button type="reset" name="reset">cancel</button>
+                            </center>
                         </form>
                     </div>
                     <div>
@@ -71,21 +76,20 @@
                             	$Writer = $_POST['writer'];
                             	$Date = date("Y-m-d", strtotime($_POST['rstart']));
                             	$Publisher = $_POST['publisher'];
-                                $ip = getenv("REMOTE_ADDR"); 
-                            
-                            	$dbc = mysqli_connect($ip, 'meshabber', '', 'c9')
-                            	or die('Err Connecting to MYSQL server.');
-                            
+                                    
                             	if($Name == null || $Writer == null|| $Date == null || $Publisher == null){
                             	    echo '</br>항목을 전부 채워주세요';
-                            	    mysqli_close($dbc);
                             	}
                             	else{
+                            	    $ip = getenv("REMOTE_ADDR");
+                                	$dbc = mysqli_connect($ip, 'meshabber', '', 'c9')
+                                	or die('Err Connecting to MYSQL server.');
+                                    
                                 	$query = "INSERT INTO bookinfo values ('$Name', '$Writer', '$Date', '$Publisher')";
                                 	$result = mysqli_query($dbc, $query)
-                                	or die();
+                                	or die('DB insert Err');
                         
-                                	mysqli_close($dbc);
+                                    mysqli_close($dbc);
                             	}
                         	?>
                     </div>
