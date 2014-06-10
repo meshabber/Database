@@ -10,21 +10,18 @@
                     margin:0; padding:11px 0 0 0;
                 }
                 .menu li { display:block; float:left; margin:0 0 0 5%; height:27px; }
-                .menu li.left { margin:0; }
                 .menu a {
                     display:block; float:left; color:#fff; background:#4A6867; line-height:27px;
-                    text-decoration:none; padding:0 17px 0 18px; height:27px;
+                    text-decoration:none; padding:0 17px 0 17px; height:27px;
                 }
-                .menu a.right { padding-right:19px; }
                 .menu a:hover { background:#2E4560; }
                 .menu a.current { color:#2E4560; background:#fff; }
                 .menu a.current:hover { color:#2E4560; background:#fff; }
                 
-                .line { width:90%; padding:10px; border:3; border-style:solid; border-color:#EBEBEB; overflow:auto; }
+                .line { width:90%; padding:10px; border:3; border-style:solid; border-color:#EBEBEB; overflow:auto; align:center; }
                 
-                .grey {color:#696969;width:90%;padding: 0.5px;border:solid 1px;border-color:#E7E7E7;background-color:#F4F4F4;text-align:center;}
-                .class_done {color:#828282; padding:5px;width:90%;border:solid 1px;border-color:#E7E7E7;background-color:#000000;text-align:right;}
-                .done {color:#828282; padding: 10px 2px 10px 10px;width:90%;border:solid 1px;border-color:#E7E7E7;background-color:#000000;text-align:right;}
+                .grey {color:#696969;width:90%;padding:0.2px 5px 0.2px 5px; border:solid 1px;border-color:#E7E7E7;background-color:#F4F4F4;text-align:center;}
+                .done {color:#828282; padding: 10px 2px 15px 10px;width:90%;border:solid 1px;border-color:#E7E7E7;background-color:#000000;text-align:right;}
                 .green {color:#99B81A;width:90%;border:solid 1px;border-color:#DDEAA8;padding:5px 5px 2px 5px;background-color:#FBFDF1;text-align:center;}
                 .red {color:#D98383;width:90%;border:solid 1px;border-color:#F9D5D5;padding:5px 5px 2px 5px;background-color:#FEF6F6;text-align:center;}
                 .purple {color:#AF69C0;width:90%;border:solid 1px;border-color:#EFDAF4;padding:5px 5px 2px 5px;background-color:#FCF7FD;text-align:center;}
@@ -44,11 +41,11 @@
     </head>
     
     <body>
-        <table align='center' style="width:100%">
+        <table align="center" style="width:100%">
             <tr>
                 <td>
                     <div id="container">
-                        <ul class="menu">
+                        <ul class="menu" align="center">
                             <li><a href="index.php" title="index" class="current">INDEX</a></li>
                             <li><a href="timetable.php" title="timetable">TIME</a></li>
                             <li><a href="book_info.php" title="bookinfo">BOOK</a></li>
@@ -62,7 +59,7 @@
                         <?php
                             $kday=array("일", "월", "화", "수", "목", "금", "토");
                             $wday=date("w", (time()+46800));
-                            $currenttime = date("H", (time()+46800));
+                            $currenttime = date("H:i", (time()+46800));
                             echo '<center style="font-weight:bold;">TODAY('.$kday[$wday].')</center>';
                             echo '<br />';
                             
@@ -75,44 +72,104 @@
                             $color_map[""] = "grey";
                             $period_map = array("s0900", "s1000", "s1100", "s1200", 
                                           "s1300", "s1400", "s1500", "s1600", "s1700", "s1800");
-                            for($i=0;$i<10;$i++){
-                                $time_map[$period_map[$i]]=($i+9);
-                            }
+                            
+                            $invert_time_map["s0900"] = "09:00";
+                            $invert_time_map["s1000"] = "10:00";
+                            $invert_time_map["s1100"] = "11:00";
+                            $invert_time_map["s1200"] = "12:00";
+                            $invert_time_map["s1300"] = "13:00";
+                            $invert_time_map["s1400"] = "14:00";
+                            $invert_time_map["s1500"] = "15:00";
+                            $invert_time_map["s1600"] = "16:00";
+                            $invert_time_map["s1700"] = "17:00";
+                            $invert_time_map["s1800"] = "18:00";
                             
                             $ip=getenv("REMOTE_ADDR");
                             $dbc=mysqli_connect($ip, 'meshabber', '', 'c9') 
                             or die('Err Connecting to MYSQL server.');
-                        
+                            
+                            $query="DELETE FROM today WHERE day<$wday";
+                            $result=mysqli_query($dbc, $query);
+                            
                             $query="SELECT * FROM weekschedule WHERE day='$kday[$wday]'";
                             $result=mysqli_query($dbc, $query);
                             $input=mysqli_fetch_array($result);
+                        
+                            $today_query="SELECT DISTINCT period FROM today ORDER BY period ASC";
+                            $today_result=mysqli_query($dbc, $query);
+                            while($today_input = mysqli_fetch_array($today_result)){
+                                $today_period[] = $today_input["period"];
+                            }
                             
-                            echo '<form method="post" action="index.php">';
                             for($i=0;$i<10;$i++){
                                 $div_class=$color_map[$input[$period_map[$i]]];
                                 $class_name=$input[$period_map[$i]];
                                 if($class_name == null){
-                                    $class_name = '<input type="hidden" name="'.$i.'"/><button type="submit" name="'.$i.'">일정추가</button>';
+                                    $class_name = '<button type="submit" style="width:100%;" name="'.$i.'">일정 보기</button>';
                                 }
-                                if($currenttime > $time_map[$period_map[$i]]){
-                                    if($class_name != '<input type="hidden" name="'.$i.'"/><button type="submit" name="'.$i.'">일정추가</button>')
-                                        $div_class="class_done";
-                                    else{
-                                        $class_name = null;
-                                        $div_class="done";
+                                if($currenttime > $invert_time_map[$period_map[$i]]){
+                                    $today_query="SELECT bookname, currentpage FROM today WHERE period='$period_map[$i]'";
+                                    $today_result=mysqli_query($dbc, $query);
+                                    while($today_input = mysqli_fetch_array($today_result)){
+                                        $Curpage = $today_input["currentpage"];
+                                        $BOOK = $todau_input["bookname"];
+                                        $query="UPDATE bookinfo SET currentpage=$Curpage WHERE bookname='$BOOK'";
+                                        $result=mysqli_query($dbc, $query) or die('DB ERR');
                                     }
+                                    mysqli_query($dbc, "DELETE FROM today WHERE period='$period_map[$i]'") or die('DB ERR'); 
+                                    
+                                    $class_name = null;
+                                    $div_class="done";
                                 }
-                                echo '<div class="'.$div_class.'">'.$class_name.
-                                     '</div>';
+                                echo '<form method="post" action="index.php">';
+                                echo '<div class="'.$div_class.'">'.$class_name.'</div>';
                             }
-                            echo '</form>';
                             echo '<br />';
                             
                             for($i=0;$i<10;$i++){
                                 if(isset($_POST[$i])){
-                                    echo $i;
+                                    $query = "SELECT name FROM bookinfo";
+                                	$result = mysqli_query($dbc, $query);
+                                	
+                                	$period = $period_map[$i];
+                                    $query2 = "SELECT * FROM today where period='$period'";
+                                	$result2 = mysqli_query($dbc, $query2);
+                                	
+                                    echo '<form method="post" action="index.php">
+                                          <fieldset>
+                                          <legend>'.$invert_time_map[$period_map[$i]].'</legend>';
+                                    
+                                    $time_use = 60;    
+                                    while($today = mysqli_fetch_array($result2)){
+                                        echo '<input type="text" disabled="disabled" value="'.$today["bookname"].'"/> ~ 
+                                              <input type="text" disabled="disabled" style="width:10%" value="'.$today["page"].'"/>min<br />';
+                                        $time_use = $time_use - $today["page"];
+                                    }    
+                                    
+                                	if($time_use != 0){
+                                        echo '<select name="booklist" style="width:65%">';	
+                                    	while($booknames = mysqli_fetch_array($result)){
+                                    	    echo '<option value="'.$booknames["name"]. '">'.$booknames["name"].'</option>';
+                                    	}
+                                    	echo '</select>
+                                              ~ <input type="number" name="page" max="'.$time_use.'" min="1" value="1"/> 
+                                              <input type="hidden" name="period" value="'.$period_map[$i].'"/> 
+                                    	      <button type="submit" name="todaysubmit">submit</button>';
+                                	} 
+                                	echo '</fieldset>
+                                	      </form>';
                                 }
                             }    
+                            
+                            if(isset($_POST['todaysubmit'])){
+                                $bookname = $_POST['booklist'];
+                                $period = $_POST['period'];
+                                $page = $_POST['page'];
+                                $day = date("w", (time()+46800));
+                                
+                                $query="INSERT INTO today(bookname, period, page, day) values('$bookname', '$period', $page, $day)";
+                                $result = mysqli_query($dbc, $query);
+                            }
                         ?>
                     </div>
                 </td>

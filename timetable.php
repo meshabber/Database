@@ -20,7 +20,7 @@
                 .menu a.current { color:#2E4560; background:#fff; }
                 .menu a.current:hover { color:#2E4560; background:#fff; }
                 
-                .line { width:90%; padding:10px; border:3; border-style:solid; border-color:#EBEBEB; overflow:auto; }
+                .line { width:90%; padding:10px; border:3; border-style:solid; border-color:#EBEBEB; overflow:auto; align:center; }
                 .table_css { font_family:sans-serif; text-align:center; 
                             border:1; border-style:solid gray; cellpadding:5; cellspacing:0;}    
                 select { width:73%; box-sizing:border-box; }
@@ -52,7 +52,7 @@
             <tr>
                 <td>
                     <div>
-                        <form method="post" action="timetable.php">
+                        <form method="post" action="timetable.php" align="center">
                             <select name="timetable">
                                 <option value="Week">Week</option>
                                 <option value="BUS">BUS</option>
@@ -113,7 +113,7 @@
                                                 $period[$k][$j]=$input[$j];
                                             }
                                         }
-                                        echo '<table border="1" class="table_css;" style="font-size:10px; width:100%;">';
+                                        echo '<table border="1" class="table_css" style="font-size:12px; width:100%;">';
                                         for($j=0;$j<11;$j++){
                                             echo '<tr>';
                                             for($k=0;$k<$i;$k++){

@@ -20,7 +20,7 @@
                 .menu a.current { color:#2E4560; background:#fff; }
                 .menu a.current:hover { color:#2E4560; background:#fff; }
                 
-                .line { width:90%; padding:10px; border:3; border-style:solid; border-color:#EBEBEB; overflow:auto; }
+                .line { width:90%; padding:10px; border:3; border-style:solid; border-color:#EBEBEB; overflow:auto; align:center; }
     
                 select { width:73%; box-sizing:border-box; }
                 label { display:inline-block; width:25%; text-align:right; }
@@ -54,7 +54,7 @@
             <tr>
                 <td>
                     <div>
-                        <form method="post" action="book_info.php">
+                        <form method="post" action="book_info.php" align="center">
                             <select name="booklist">
                                 <?php
                                     $ip = getenv("REMOTE_ADDR");
