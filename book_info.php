@@ -26,6 +26,7 @@
                 label { display:inline-block; width:25%; text-align:right; }
                 input { width:73%; box-sizing:border-box; border:1px solid #999; }
                 input:focus { border-color: #000; }
+                .graph { padding:1.5px; border-style:solid; border-color:#EBEBEB; background-color:#65C28E; font-size:10px;}
         </style>
         <script type="text/javascript">
             window.addEventListener('load', function() {
@@ -105,6 +106,8 @@
                                     $result = mysqli_query($dbc, $query);
                                     $input = mysqli_fetch_array($result);
                                     
+                                    $value = (int)(($input["currentpage"]/$input["page"])*100);
+                                    
                                     echo '<form method="post" action="book_info.php">';
                                         echo '</br><label for="name">제목&nbsp</label>';
                                         echo '<input type="text" id="name" name="name" disabled="disabled" value="'.$input["name"].'"/> <br/> ';
@@ -120,6 +123,8 @@
                                         	
                                         echo '<label for="allpage">페이지</label>';
                                         echo '<input type="text" id="allpage" name="allpage" value="'.$input["page"].'"/> </br></br>';
+                                        echo '<div style="font-size:10px; font-weight:bold;">진행도 ('.$input['currentpage'].'/'.$input['page'].'p)</div>';
+                                        echo '<div class="graph" style="width:'.$value.'%">'.$value.'%</div><br />';
                                         
                                         echo '<center>';    
                                         echo '<button type="submit" name="mody" value="'.$Name.'">apply</button>';
@@ -127,6 +132,7 @@
                                         echo '</center>';    
                                    // echo '<input type="hidden" name="auth" value="'.$Name.'"/>';
                                     echo '</form>';
+                                    
                                 }    
                             }
                             if(isset($_POST['del'])){ // delete();

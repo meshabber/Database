@@ -22,7 +22,7 @@
                 
                 .line { width:90%; padding:10px; border:3; border-style:solid; border-color:#EBEBEB; overflow:auto; }
                 
-                .grey {color:#696969;width:90%;padding: 0.5px;border:solid 1px;border-color:#E7E7E7;background-color:#F4F4F4;text-align:center;}
+                .grey {color:#696969;width:90%;padding: 10px 2px 10px 10px;border:solid 1px;border-color:#E7E7E7;background-color:#F4F4F4;text-align:right;}
                 .class_done {color:#828282; padding:5px;width:90%;border:solid 1px;border-color:#E7E7E7;background-color:#000000;text-align:right;}
                 .done {color:#828282; padding: 10px 2px 10px 10px;width:90%;border:solid 1px;border-color:#E7E7E7;background-color:#000000;text-align:right;}
                 .green {color:#99B81A;width:90%;border:solid 1px;border-color:#DDEAA8;padding:5px 5px 2px 5px;background-color:#FBFDF1;text-align:center;}
@@ -60,59 +60,13 @@
                 <td>
                     <div class="line" align='center'>
                         <?php
-                            $kday=array("일", "월", "화", "수", "목", "금", "토");
-                            $wday=date("w", (time()+46800));
-                            $currenttime = date("H", (time()+46800));
-                            echo '<center style="font-weight:bold;">TODAY('.$kday[$wday].')</center>';
-                            echo '<br />';
-                            
-                            $color_map["컴퓨터네트워크"] = "green";
-                            $color_map["운영체제"] = "red";
-                            $color_map["프로그래밍언어"] = "purple";
-                            $color_map["소프트웨어공학"] = "blue";
-                            $color_map["데이타베이스"] = "blue-green";
-                            $color_map["마이크로프로세서"] = "green-blue";
-                            $color_map[""] = "grey";
                             $period_map = array("s0900", "s1000", "s1100", "s1200", 
                                           "s1300", "s1400", "s1500", "s1600", "s1700", "s1800");
                             for($i=0;$i<10;$i++){
-                                $time_map[$period_map[$i]]=($i+9);
-                            }
-                            
-                            $ip=getenv("REMOTE_ADDR");
-                            $dbc=mysqli_connect($ip, 'meshabber', '', 'c9') 
-                            or die('Err Connecting to MYSQL server.');
-                        
-                            $query="SELECT * FROM weekschedule WHERE day='$kday[$wday]'";
-                            $result=mysqli_query($dbc, $query);
-                            $input=mysqli_fetch_array($result);
-                            
-                            echo '<form method="post" action="index.php">';
-                            for($i=0;$i<10;$i++){
-                                $div_class=$color_map[$input[$period_map[$i]]];
-                                $class_name=$input[$period_map[$i]];
-                                if($class_name == null){
-                                    $class_name = '<input type="hidden" name="'.$i.'"/><button type="submit" name="'.$i.'">일정추가</button>';
-                                }
-                                if($currenttime > $time_map[$period_map[$i]]){
-                                    if($class_name != '<input type="hidden" name="'.$i.'"/><button type="submit" name="'.$i.'">일정추가</button>')
-                                        $div_class="class_done";
-                                    else{
-                                        $class_name = null;
-                                        $div_class="done";
-                                    }
-                                }
-                                echo '<div class="'.$div_class.'">'.$class_name.
-                                     '</div>';
-                            }
-                            echo '</form>';
-                            echo '<br />';
-                            
-                            for($i=0;$i<10;$i++){
-                                if(isset($_POST[$i])){
+                                if(isset($_POST[$i]))
                                     echo $i;
-                                }
-                            }    
+                            }
+                            
                         ?>
                     </div>
                 </td>

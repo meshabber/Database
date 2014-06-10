@@ -113,7 +113,7 @@
                                                 $period[$k][$j]=$input[$j];
                                             }
                                         }
-                                        echo '<table border="1" class="table_css">';
+                                        echo '<table border="1" class="table_css;" style="font-size:10px; width:100%;">';
                                         for($j=0;$j<11;$j++){
                                             echo '<tr>';
                                             for($k=0;$k<$i;$k++){
