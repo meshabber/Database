@@ -113,8 +113,9 @@
                                     while($today_input = mysqli_fetch_array($today_result)){
                                         $Curpage = $today_input["currentpage"];
                                         $BOOK = $todau_input["bookname"];
+                                        if($Curpage == null) break;
                                         $query="UPDATE bookinfo SET currentpage=$Curpage WHERE bookname='$BOOK'";
-                                        $result=mysqli_query($dbc, $query) or die('DB ERR');
+                                        $result=mysqli_query($dbc, $query) or die('DB Update Err');
                                     }
                                     mysqli_query($dbc, "DELETE FROM today WHERE period='$period_map[$i]'") or die('DB ERR'); 
                                     
